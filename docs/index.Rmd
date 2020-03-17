@@ -1,0 +1,162 @@
+---
+title: "Week 9: Git Basics"
+output:
+  revealjs::revealjs_presentation:
+    theme: white
+    center: true
+    transition: none
+    incremental: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Git Resources
+
+- Git will feel foreign for a while, but you will get a lot of practice in this class
+
+- A great resource, from which I've heavily borrowed is Jenny Bryan's [Happy Git and GitHub for the useR](https://happygitwithr.com)
+
+- Another good reference is the [GitHub Git Cheat Sheet](https://education.github.com/git-cheat-sheet-education.pdf)
+
+## Git: The What and the Why
+- Git is a version control system that manages as set of files as a repository, or a *repo*.
+
+- For the long version of why, see [Excuse me, do you have a moment to talk about version control?](https://peerj.com/preprints/3159/)
+
+- For today, just know:
+    - Programming expertise, and skills like this, are essential in Data Science
+    - Version control will save back up files, in case of computer problems
+    - It is an efficient way to handle collaboration
+    - Creating R packages is easy with R Studio and Github
+    - Github pages allows you to create and host websites
+
+## Demo Overview:
+
+
+1. Github account
+2. Upgrade R and R Studio
+3. Git installation and initialization
+4. Git GUI??
+5. Git - to - Github with R Studio
+6. Basic Git Commands
+
+
+## Github Account
+
+- At this point you should have registered for a github account.
+
+- If not, visit [github.com](https://www.github.com) to set up your account.
+
+- If you have an account, go ahead and log in. We will use this soon.
+
+## R and R Studio Updates
+
+- R is currently on version 3.6.2, if your version is much older than this, you will want to update it [here](https://cloud.r-project.org).
+
+- Updating R can be a bit painful, but keeping current is good practice.
+
+- R Studio is constantly adding improvements and updates, including a git interface.
+
+- To stay current, consider using the [Preview version](https://www.rstudio.com/products/rstudio/download/preview/) and updating at the start of every semester.
+
+## Git installation and Git initialization
+
+- If you are lucky, git is already installed on your computer.
+
+- To check you have git, open the terminal or command line, and type `git --version`. In newer versions of R Studio there is a command line tab.
+
+- If `git --version` does not return an error, then you are in luck. Otherwise, git needs to be be [installed](https://happygitwithr.com/install-git.html).
+
+- If you have not already done so we need to initialize git with the following commands in the terminal:
+```
+git config --global user.name 'First Last'
+git config --global user.email 'who@montana.edu'
+```
+Note the email should correspond to the one you used to sign up for github.
+
+## Git GUI?
+
+- If you are leery of using the command line, consider downloading a git GUI.
+
+- Two options are options are:
+    - [gitkraken](https://www.gitkraken.com) and
+    - [github desktop](https://desktop.github.com)
+    
+- Also, know that R Studio has some built in features that simplify the git process too.
+
+## Git - to - Github with R Studio: 1
+
+- Our goal is to work locally, in R Studio, and *push* updates to Github.
+
+- First, go to your github page and create a new repo. To do this, 
+    - Repository name: git_demo
+    - Description: “practice with git”
+    - Select Public
+    - YES Initialize this repository with a README.
+    - Click: create repository.
+    
+- Next, we will clone this repo and create an R Studio project associated with it.
+
+## Git - to - Github with R Studio: 2 (part 1)
+
+- Now we want to create a local git repo associated with the one hosted on github.
+
+- First we need to set up version control in R Studio [(more details here)](https://support.rstudio.com/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN)
+    1. Tools ... Global Options .. Git/SVN 
+    2. Click enable version controll interface for R Studio projects
+
+## Git - to - Github with R Studio: 2 (part 2)
+
+- Then we will create this git repo as an R project, by cloning the one on github.
+    1. File ... New Project ... Version Control ... Git
+    2. Repository URL: This can be obtained from the clone button in github.
+    3. Project directory name: this will be the name of the folder containing the repo
+    4. Create project as subdirectory of: this is location for the file, you may want to think about a structured file system on your local computer.
+    
+
+## Git - to - Github with R Studio: 3 (part 1)
+
+We now have created a local git repo.
+
+1. Click on the terminal window and type `git status`, you will see our current work is up to dat.
+
+2. Now click on README.md in the file pane and add a new line that says, "modified in R Studio" and save this file.
+
+## Git - to - Github with R Studio: 3 (part 2)
+
+3. Open the Git tab in the top right and we will see that README.md has been updated. 
+    1. Click on staged (this is essentially the same as typing git add README.md in the terminal)
+    2. Click on commit, this will open up a new window. A commit basically amounts to saving a version of all of the current status of all of the files in the repo.
+    3. Type a message, such as "changes from R Studio" and click commit
+    4. Click on push, and enter github username and password, if necessary. Note: you may want to simplify the push-pull actions by saving github account information [details](https://happygitwithr.com/push-pull-github.html#am-i-really-going-to-type-github-username-and-password-on-each-push)
+
+## Git - to - Github with R Studio: 4
+
+- Now return to your github page. If you refresh, you should seee a new commit that contains the additional info we added in R studio.
+
+- Go ahead and modify the README.md in github to add a line stating modified in github.
+
+- Commit the update along with a message. We will now see that there have been three commits.
+
+- The final step is to call a `pull` command from R Studio to bring those updates to your local repo.
+
+- It is always good practice to `pull` before a `push`, especially as you start to collaborate with others.
+
+## Basic Git Commands (part 1)
+
+We will just cover a few basic commands for now, but the [github cheetsheet](https://education.github.com/git-cheat-sheet-education.pdf) is a good reference:
+
+- `add`: this adds or stages a file to be committed. It can also be used to track new files. Create an .Rmd file and save it within this directory as sample.Rmd . The file will not immediately show up in the Git window, we need to start tracking it. In the terminal type `git add sample.Rmd`. Note: sometimes this does not seem to work the first time and you might want to try gitKraken or some other option.
+
+- `status`: shows the current state of the git repo. Type `git status`
+
+## Basic Git Commands (part 2) 
+
+- `commit`: saves the version of all files in the repo. Only updated files that have been staged are saved in this version. In the terminal type `git commit -m 'added sample.Rmd file for tracking`. 
+
+- `pull`: will retrieve and merge from the remote (github in this case). Type `git pull`.
+
+- `push`: sends updates that have been committed to the remote. Type `git push`. Now inspect your repo on github.
+
