@@ -1,5 +1,5 @@
 ---
-title: "Week 9: Git Basics"
+title: "R Functions and Conditional Logic"
 output:
   revealjs::revealjs_presentation:
     theme: white
@@ -8,155 +8,293 @@ output:
     incremental: true
 ---
 
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(cache=TRUE)
+library(knitr)
 ```
 
-## Git Resources
 
-- Git will feel foreign for a while, but you will get a lot of practice in this class
+# Conditional Expressions in R
 
-- A great resource, from which I've heavily borrowed is Jenny Bryan's [Happy Git and GitHub for the useR](https://happygitwithr.com)
+## Exercise: Conditions in R 
+We have touched on many of these before, but here are some examples of expressions (conditions) in R. Evaluate these expressions:
 
-- Another good reference is the [GitHub Git Cheat Sheet](https://education.github.com/git-cheat-sheet-education.pdf)
-
-## Git: The What and the Why
-- Git is a version control system that manages as set of files as a repository, or a *repo*.
-
-- For the long version of why, see [Excuse me, do you have a moment to talk about version control?](https://peerj.com/preprints/3159/)
-
-- For today, just know:
-    - Programming expertise, and skills like this, are essential in Data Science
-    - Version control will save back up files, in case of computer problems
-    - It is an efficient way to handle collaboration
-    - Creating R packages is easy with R Studio and Github
-    - Github pages allows you to create and host websites
-
-## Demo Overview:
-
-
-1. Github account
-2. Upgrade R and R Studio
-3. Git installation and initialization
-4. Git GUI??
-5. Git - to - Github with R Studio
-6. Basic Git Commands
-
-
-## Github Account
-
-- At this point you should have registered for a github account.
-
-- If not, visit [github.com](https://www.github.com) to set up your account.
-
-- If you have an account, go ahead and log in. We will use this soon.
-
-## R and R Studio Updates
-
-- R is currently on version 3.6.2, if your version is much older than this, you will want to update it [here](https://cloud.r-project.org).
-
-- Updating R can be a bit painful, but keeping current is good practice.
-
-- R Studio is constantly adding improvements and updates, including a git interface.
-
-- To stay current, consider using the [Preview version](https://www.rstudio.com/products/rstudio/download/preview/) and updating at the start of every semester.
-
-## Git installation and Git initialization
-
-- If you are lucky, git is already installed on your computer.
-
-- To check you have git, open the terminal or command line, and type `git --version`. In newer versions of R Studio there is a command line tab.
-
-- If `git --version` does not return an error, then you are in luck. Otherwise, git needs to be be [installed](https://happygitwithr.com/install-git.html).
-
-- If you have not already done so we need to initialize git with the following commands in the terminal:
+```{r, eval=FALSE}
+pi > 3 & pi < 3.5
+c(1,3,5,7) %in% 1:3
+1:3 %in% c(1,3,5,7)
+rand.uniform <- runif(n = 1, min = 0, max = 1)
+rand.uniform < .5
 ```
-git config --global user.name 'First Last'
-git config --global user.email 'who@montana.edu'
+
+## Solutions: Conditions in R: Evaluated 1
+
+```{r}
+pi > 3 & pi < 3.5
+c(1,3,5,7) %in% 1:3
+1:3 %in% c(1,3,5,7)
 ```
-Note the email should correspond to the one you used to sign up for github.
 
-## Git GUI?
+## Solutions: Conditions in R: Evaluated 2
 
-- If you are leery of using the command line, consider downloading a git GUI.
+```{r}
+set.seed(01252020)
+rand.uniform <- runif(n = 1, min = 0, max = 1); rand.uniform
+rand.uniform < .5
+```
 
-- Two options are options are:
-    - [gitkraken](https://www.gitkraken.com) and
-    - [github desktop](https://desktop.github.com)
-    
-- Also, know that R Studio has some built in features that simplify the git process too.
 
-## Git - to - Github with R Studio: 1
+## Conditional Expression: If and Else
+```{r}
+print(rand.uniform)
+```
+Now what does this return?
+```{r, eval=FALSE}
+if (rand.uniform < .5){
+  print('value less than 1/2')
+} else {
+    print('value greater than or equal to 1/2')
+}
+```
 
-- Our goal is to work locally, in R Studio, and *push* updates to Github.
+## Conditional Expression: If and Else
+```{r}
+print(rand.uniform)
+if (rand.uniform < .5){
+  print('value less than 1/2')
+} else {
+    print('value greater than or equal to 1/2')
+}
+```
 
-- First, go to your github page and create a new repo. To do this, 
-    - Repository name: git_demo
-    - Description: “practice with git”
-    - Select Public
-    - YES Initialize this repository with a README.
-    - Click: create repository.
-    
-- Next, we will clone this repo and create an R Studio project associated with it.
+## Conditional Expression: Vectorized?
+Does this function accept a vector as an input?
+```{r, eval=F}
+rand.uniform2 <- runif(2)
+print(rand.uniform2)
+if (rand.uniform2 < .5){
+  print('value less than 1/2')
+} else {
+    print('value greater than or equal to 1/2')
+}
+```
 
-## Git - to - Github with R Studio: 2 (part 1)
+## Conditional Expression: Vectorized?
+```{r, eval=T}
+rand.uniform2 <- runif(2)
+print(rand.uniform2)
+```
 
-- Now we want to create a local git repo associated with the one hosted on github.
+## Conditional Expression: Vectorized?
+```{r, eval=T}
+if (rand.uniform2 < .5){
+  'value less than 1/2'
+} else {
+    'value greater than 1/2'
+}
+```
 
-- First we need to set up version control in R Studio [(more details here)](https://support.rstudio.com/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN)
-    1. Tools ... Global Options .. Git/SVN 
-    2. Click enable version controll interface for R Studio projects
 
-## Git - to - Github with R Studio: 2 (part 2)
+## Conditional Expression, ifelse
+```{r}
+print(rand.uniform2)
+ifelse(rand.uniform2 < .5,'less than 1/2',
+       'greater than 1/2')
+```
+The `ifelse()` function is vectorized and generally preferred with a single set of if/else statements.
 
-- Then we will create this git repo as an R project, by cloning the one on github.
-    1. File ... New Project ... Version Control ... Git
-    2. Repository URL: This can be obtained from the clone button in github.
-    3. Project directory name: this will be the name of the folder containing the repo
-    4. Create project as subdirectory of: this is location for the file, you may want to think about a structured file system on your local computer.
-    
+## Exercise: Conditional Expression
+Write a conditional statement that takes a playing card with two arguments:
 
-## Git - to - Github with R Studio: 3 (part 1)
+- (`card.number <- '4'` and `card.suit <- 'C'` = 4 of clubs or `card.number <-'K'` and `card.suit <- 'H'` = King of hearts)  and
+- Print `Yes` if the card is a red face card and `No` otherwise.
 
-We now have created a local git repo.
+Verify this works using the following inputs:
 
-1. Click on the terminal window and type `git status`, you will see our current work is up to dat.
+- `card.number <- 'J'` and `card.suit <- 'D'`
+- `card.number <- 'Q'` and `card.suit <- 'S'`
 
-2. Now click on README.md in the file pane and add a new line that says, "modified in R Studio" and save this file.
 
-## Git - to - Github with R Studio: 3 (part 2)
+## Solution: Conditional Expression
+\footnotesize
+```{r}
+card.number <- 'J'
+card.suit <- 'D'
+ifelse(card.number %in% c('J','Q','K') & 
+         card.suit %in% c('H','D'),'Yes','No')
+card.number <- 'Q'
+card.suit <- 'S'
+ifelse(card.number %in% c('J','Q','K') & 
+         card.suit %in% c('H','D'),'Yes','No')
+```
 
-3. Open the Git tab in the top right and we will see that README.md has been updated. 
-    1. Click on staged (this is essentially the same as typing git add README.md in the terminal)
-    2. Click on commit, this will open up a new window. A commit basically amounts to saving a version of all of the current status of all of the files in the repo.
-    3. Type a message, such as "changes from R Studio" and click commit
-    4. Click on push, and enter github username and password, if necessary. Note: you may want to simplify the push-pull actions by saving github account information [details](https://happygitwithr.com/push-pull-github.html#am-i-really-going-to-type-github-username-and-password-on-each-push)
 
-## Git - to - Github with R Studio: 4
+# Writing R Functions
 
-- Now return to your github page. If you refresh, you should seee a new commit that contains the additional info we added in R studio.
+## Organization: Functions
+Functions should contain a comments section immediately below the function definition line. These comments should consist of 
 
-- Go ahead and modify the README.md in github to add a line stating modified in github.
+>1. a one-sentence description; 
+2. a list of the functions arguments, denoted by `Args:`, with a description of each and 
+ 3. a description of the return value, denoted by `Returns:`. 
+ 
+ The comments should be descriptive enough that the function can be used without reading the function code.
+ 
+## Overview Functions in R
+Functions are a way to save elements of code to be used repeatedly.
 
-- Commit the update along with a message. We will now see that there have been three commits.
+```{r}
+RollDice <- function(num.rolls){
+  # 
+  # ARGS: 
+  # RETURNS: 
+  return(sample(6, num.rolls, replace = T))
+}
+RollDice(2)
+```
 
-- The final step is to call a `pull` command from R Studio to bring those updates to your local repo.
+## Exercise: Function Descriptions 
+Document this function with 
 
-- It is always good practice to `pull` before a `push`, especially as you start to collaborate with others.
+1. a description,
+2. summary of input(s)
+3. summary of outputs
 
-## Basic Git Commands (part 1)
+```{r}
+RollDice <- function(num.rolls){
+  # 
+  # ARGS:
+  # RETURNS: 
+  return(sample(6, num.rolls, replace = T))
+}
+```
 
-We will just cover a few basic commands for now, but the [github cheetsheet](https://education.github.com/git-cheat-sheet-education.pdf) is a good reference:
+## Solution: Function Descriptions 
 
-- `add`: this adds or stages a file to be committed. It can also be used to track new files. Create an .Rmd file and save it within this directory as sample.Rmd . The file will not immediately show up in the Git window, we need to start tracking it. In the terminal type `git add sample.Rmd`. Note: sometimes this does not seem to work the first time and you might want to try gitKraken or some other option.
+```{r}
+RollDice <- function(num.rolls){
+  # function that returns rolls of dice
+  # ARGS: num.rolls - number of rolls
+  # RETURNS: vector of num.rolls of a die
+  return(sample(6, num.rolls, replace = T))
+}
+RollDice(2)
+```
 
-- `status`: shows the current state of the git repo. Type `git status`
 
-## Basic Git Commands (part 2) 
+## Format of an R function
+Here is an example (trivial) R function.
+```{r func.def}
+SquareRoot <- function(value.in){
+  # function takes square root of value.
+  # Args: value.in - numeric value 
+  # Returns: the square root of value.in
+  return(value.in ^ .5)
+}
+```
 
-- `commit`: saves the version of all files in the repo. Only updated files that have been staged are saved in this version. In the terminal type `git commit -m 'added sample.Rmd file for tracking`. 
+## Square Root Function
+Now consider running the function for a few values.
+```{r evalSQ}
+SquareRoot(9)
+SquareRoot(25)
+```
+Now what happens with `SquareRoot(-1)`?
 
-- `pull`: will retrieve and merge from the remote (github in this case). Type `git pull`.
+## Square Root Function
+```{r neqSQ}
+SquareRoot(-1)
+```
+What should happen?
 
-- `push`: sends updates that have been committed to the remote. Type `git push`. Now inspect your repo on github.
+## Errors in R functions
+Here is an example (trivial) R function.
+```{r func.def.new}
+SquareRoot <- function(value.in){
+  # function takes square root of value.
+  # Args: value.in - numeric value 
+  # Returns: the square root of value.in
+  if (value.in < 0) stop('argument less than zero')
+  return(value.in ^ .5)
+}
+```
+
+## Square Root Function
+```{r neqSQ.new,eval=FALSE}
+SquareRoot(-1)
+```
+This returns:
+```{r error, eval=FALSE}
+> SquareRoot(-1)
+Error in SquareRoot(-1) : 
+  argument less than zero
+```
+
+## Exercise: Writing and Documenting a Function
+Use the defined style guidelines to create an R script that:
+
+1. Takes a state abbreviations as an input
+2. Imports a file available at:  [http://math.montana.edu/ahoegh/teaching/stat408/datasets/HousingSales.csv](http://math.montana.edu/ahoegh/teaching/stat408/datasets/HousingSales.csv)
+3. Creates a subset of housing sales from that state.
+4. Returns a vector with the mean closing price in that state.
+
+Verify your functions works by running it twice using "MT" and "NE" as inputs.
+
+## Solution: Writing and Documenting a Function
+```{r, mysize=TRUE, size='\\tiny'}
+SummarizeHousingCosts <- function(state){
+  # computes average sales price in a state
+  # ARGS: state abbr, such as 'MT' or 'CA'
+  # RETURNS: vector with average sales price that each state
+  housing.data <- read.csv(
+    'http://math.montana.edu/ahoegh/teaching/stat408/datasets/HousingSales.csv')
+  location <- subset(housing.data, State == state)
+  mean.price <- mean(location$Closing_Price)
+  return(mean.price)
+}
+```
+
+
+```{r, mysize=TRUE, size='\\footnotesize'}
+SummarizeHousingCosts('MT')
+SummarizeHousingCosts('NE')
+```
+
+## Exercise: Functions Part 2
+Now write a function that;
+
+1. Takes daily snowfall total in inches as input
+2. Takes day of week as input
+3. Returns whether to ski or stay home.
+
+Also include and the `stop()` function for errors.
+Test this function with two settings:
+
+ - snowfall = 15, day = "Sat"
+ - snowfall = -1, day = "Mon"
+
+## Solution: Functions Part 2
+```{r}
+ToSki <- function(snowfall, day){
+  # determines whether to ski or stay home
+  # ARGS: snowfall in inches, day as three letter 
+  #       abbrwith first letter capitalized
+  # RETURNS: string stating whether to ski or not
+  if (snowfall < 0) stop('snowfall should be greater 
+        than or equal to zero inches')
+  if (day == 'Sat') {
+    return('Go Ski')
+  } else if (snowfall > 5) {
+    return('Go Ski')
+  } else return('Stay Home')
+}
+```
+
+## Solution: Functions Part 2 cont..
+```{r, error = T, mysize=TRUE, size='\\small'}
+ToSki(snowfall = 15, day = "Sat")
+ToSki(-1, 'Mon')
+```
 

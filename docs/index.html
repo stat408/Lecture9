@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
-  <title>Week 9: Git Basics</title>
+  <title>R Functions and Conditional Logic</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -1082,6 +1082,71 @@ visibility: hidden; }
 </style>
 
 
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 <style type="text/css">
 @font-face {
@@ -1767,168 +1832,256 @@ document.getElementsByTagName('head')[0].appendChild(style);
     <div class="slides">
 
 <section>
-    <h1 class="title">Week 9: Git Basics</h1>
+    <h1 class="title">R Functions and Conditional Logic</h1>
 </section>
 
-<section id="git-resources" class="slide level2">
-<h2>Git Resources</h2>
+<section><section id="conditional-expressions-in-r" class="title-slide slide level1"><h1>Conditional Expressions in R</h1></section><section id="exercise-conditions-in-r" class="slide level2">
+<h2>Exercise: Conditions in R</h2>
+<p>We have touched on many of these before, but here are some examples of expressions (conditions) in R. Evaluate these expressions:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>pi <span class="op">&gt;</span><span class="st"> </span><span class="dv">3</span> <span class="op">&amp;</span><span class="st"> </span>pi <span class="op">&lt;</span><span class="st"> </span><span class="fl">3.5</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>) <span class="op">%in%</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="dv">1</span><span class="op">:</span><span class="dv">3</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>)</span>
+<span id="cb1-4"><a href="#cb1-4"></a>rand.uniform &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>)</span>
+<span id="cb1-5"><a href="#cb1-5"></a>rand.uniform <span class="op">&lt;</span><span class="st"> </span><span class="fl">.5</span></span></code></pre></div>
+</section><section id="solutions-conditions-in-r-evaluated-1" class="slide level2">
+<h2>Solutions: Conditions in R: Evaluated 1</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>pi <span class="op">&gt;</span><span class="st"> </span><span class="dv">3</span> <span class="op">&amp;</span><span class="st"> </span>pi <span class="op">&lt;</span><span class="st"> </span><span class="fl">3.5</span></span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>) <span class="op">%in%</span><span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span></span></code></pre></div>
+<pre><code>## [1]  TRUE  TRUE FALSE FALSE</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="dv">1</span><span class="op">:</span><span class="dv">3</span> <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">7</span>)</span></code></pre></div>
+<pre><code>## [1]  TRUE FALSE  TRUE</code></pre>
+</section><section id="solutions-conditions-in-r-evaluated-2" class="slide level2">
+<h2>Solutions: Conditions in R: Evaluated 2</h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">set.seed</span>(<span class="dv">01252020</span>)</span>
+<span id="cb8-2"><a href="#cb8-2"></a>rand.uniform &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">min =</span> <span class="dv">0</span>, <span class="dt">max =</span> <span class="dv">1</span>); rand.uniform</span></code></pre></div>
+<pre><code>## [1] 0.6987527</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>rand.uniform <span class="op">&lt;</span><span class="st"> </span><span class="fl">.5</span></span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
+</section><section id="conditional-expression-if-and-else" class="slide level2">
+<h2>Conditional Expression: If and Else</h2>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">print</span>(rand.uniform)</span></code></pre></div>
+<pre><code>## [1] 0.6987527</code></pre>
+<p>Now what does this return?</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="cf">if</span> (rand.uniform <span class="op">&lt;</span><span class="st"> </span><span class="fl">.5</span>){</span>
+<span id="cb14-2"><a href="#cb14-2"></a>  <span class="kw">print</span>(<span class="st">&#39;value less than 1/2&#39;</span>)</span>
+<span id="cb14-3"><a href="#cb14-3"></a>} <span class="cf">else</span> {</span>
+<span id="cb14-4"><a href="#cb14-4"></a>    <span class="kw">print</span>(<span class="st">&#39;value greater than or equal to 1/2&#39;</span>)</span>
+<span id="cb14-5"><a href="#cb14-5"></a>}</span></code></pre></div>
+</section><section id="conditional-expression-if-and-else-1" class="slide level2">
+<h2>Conditional Expression: If and Else</h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">print</span>(rand.uniform)</span></code></pre></div>
+<pre><code>## [1] 0.6987527</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="cf">if</span> (rand.uniform <span class="op">&lt;</span><span class="st"> </span><span class="fl">.5</span>){</span>
+<span id="cb17-2"><a href="#cb17-2"></a>  <span class="kw">print</span>(<span class="st">&#39;value less than 1/2&#39;</span>)</span>
+<span id="cb17-3"><a href="#cb17-3"></a>} <span class="cf">else</span> {</span>
+<span id="cb17-4"><a href="#cb17-4"></a>    <span class="kw">print</span>(<span class="st">&#39;value greater than or equal to 1/2&#39;</span>)</span>
+<span id="cb17-5"><a href="#cb17-5"></a>}</span></code></pre></div>
+<pre><code>## [1] &quot;value greater than or equal to 1/2&quot;</code></pre>
+</section><section id="conditional-expression-vectorized" class="slide level2">
+<h2>Conditional Expression: Vectorized?</h2>
+<p>Does this function accept a vector as an input?</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a>rand.uniform2 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">2</span>)</span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="kw">print</span>(rand.uniform2)</span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="cf">if</span> (rand.uniform2 <span class="op">&lt;</span><span class="st"> </span><span class="fl">.5</span>){</span>
+<span id="cb19-4"><a href="#cb19-4"></a>  <span class="kw">print</span>(<span class="st">&#39;value less than 1/2&#39;</span>)</span>
+<span id="cb19-5"><a href="#cb19-5"></a>} <span class="cf">else</span> {</span>
+<span id="cb19-6"><a href="#cb19-6"></a>    <span class="kw">print</span>(<span class="st">&#39;value greater than or equal to 1/2&#39;</span>)</span>
+<span id="cb19-7"><a href="#cb19-7"></a>}</span></code></pre></div>
+</section><section id="conditional-expression-vectorized-1" class="slide level2">
+<h2>Conditional Expression: Vectorized?</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>rand.uniform2 &lt;-<span class="st"> </span><span class="kw">runif</span>(<span class="dv">2</span>)</span>
+<span id="cb20-2"><a href="#cb20-2"></a><span class="kw">print</span>(rand.uniform2)</span></code></pre></div>
+<pre><code>## [1] 0.2672035 0.2575682</code></pre>
+</section><section id="conditional-expression-vectorized-2" class="slide level2">
+<h2>Conditional Expression: Vectorized?</h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a><span class="cf">if</span> (rand.uniform2 <span class="op">&lt;</span><span class="st"> </span><span class="fl">.5</span>){</span>
+<span id="cb22-2"><a href="#cb22-2"></a>  <span class="st">&#39;value less than 1/2&#39;</span></span>
+<span id="cb22-3"><a href="#cb22-3"></a>} <span class="cf">else</span> {</span>
+<span id="cb22-4"><a href="#cb22-4"></a>    <span class="st">&#39;value greater than 1/2&#39;</span></span>
+<span id="cb22-5"><a href="#cb22-5"></a>}</span></code></pre></div>
+<pre><code>## Warning in if (rand.uniform2 &lt; 0.5) {: the condition has length &gt; 1 and only the
+## first element will be used</code></pre>
+<pre><code>## [1] &quot;value less than 1/2&quot;</code></pre>
+</section><section id="conditional-expression-ifelse" class="slide level2">
+<h2>Conditional Expression, ifelse</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">print</span>(rand.uniform2)</span></code></pre></div>
+<pre><code>## [1] 0.2672035 0.2575682</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">ifelse</span>(rand.uniform2 <span class="op">&lt;</span><span class="st"> </span><span class="fl">.5</span>,<span class="st">&#39;less than 1/2&#39;</span>,</span>
+<span id="cb27-2"><a href="#cb27-2"></a>       <span class="st">&#39;greater than 1/2&#39;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;less than 1/2&quot; &quot;less than 1/2&quot;</code></pre>
+<p>The <code>ifelse()</code> function is vectorized and generally preferred with a single set of if/else statements.</p>
+</section><section id="exercise-conditional-expression" class="slide level2">
+<h2>Exercise: Conditional Expression</h2>
+<p>Write a conditional statement that takes a playing card with two arguments:</p>
 <ul>
-<li class="fragment"><p>Git will feel foreign for a while, but you will get a lot of practice in this class</p></li>
-<li class="fragment"><p>A great resource, from which I’ve heavily borrowed is Jenny Bryan’s <a href="https://happygitwithr.com">Happy Git and GitHub for the useR</a></p></li>
-<li class="fragment"><p>Another good reference is the <a href="https://education.github.com/git-cheat-sheet-education.pdf">GitHub Git Cheat Sheet</a></p></li>
+<li class="fragment">(<code>card.number &lt;- &#39;4&#39;</code> and <code>card.suit &lt;- &#39;C&#39;</code> = 4 of clubs or <code>card.number &lt;-&#39;K&#39;</code> and <code>card.suit &lt;- &#39;H&#39;</code> = King of hearts) and</li>
+<li class="fragment">Print <code>Yes</code> if the card is a red face card and <code>No</code> otherwise.</li>
 </ul>
-</section>
-<section id="git-the-what-and-the-why" class="slide level2">
-<h2>Git: The What and the Why</h2>
+<p>Verify this works using the following inputs:</p>
 <ul>
-<li class="fragment"><p>Git is a version control system that manages as set of files as a repository, or a <em>repo</em>.</p></li>
-<li class="fragment"><p>For the long version of why, see <a href="https://peerj.com/preprints/3159/">Excuse me, do you have a moment to talk about version control?</a></p></li>
-<li class="fragment">For today, just know:
-<ul>
-<li class="fragment">Programming expertise, and skills like this, are essential in Data Science</li>
-<li class="fragment">Version control will save back up files, in case of computer problems</li>
-<li class="fragment">It is an efficient way to handle collaboration</li>
-<li class="fragment">Creating R packages is easy with R Studio and Github</li>
-<li class="fragment">Github pages allows you to create and host websites</li>
-</ul></li>
+<li class="fragment"><code>card.number &lt;- &#39;J&#39;</code> and <code>card.suit &lt;- &#39;D&#39;</code></li>
+<li class="fragment"><code>card.number &lt;- &#39;Q&#39;</code> and <code>card.suit &lt;- &#39;S&#39;</code></li>
 </ul>
-</section>
-<section id="demo-overview" class="slide level2">
-<h2>Demo Overview:</h2>
+</section><section id="solution-conditional-expression" class="slide level2">
+<h2>Solution: Conditional Expression</h2>
+
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a>card.number &lt;-<span class="st"> &#39;J&#39;</span></span>
+<span id="cb29-2"><a href="#cb29-2"></a>card.suit &lt;-<span class="st"> &#39;D&#39;</span></span>
+<span id="cb29-3"><a href="#cb29-3"></a><span class="kw">ifelse</span>(card.number <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;J&#39;</span>,<span class="st">&#39;Q&#39;</span>,<span class="st">&#39;K&#39;</span>) <span class="op">&amp;</span><span class="st"> </span></span>
+<span id="cb29-4"><a href="#cb29-4"></a><span class="st">         </span>card.suit <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;H&#39;</span>,<span class="st">&#39;D&#39;</span>),<span class="st">&#39;Yes&#39;</span>,<span class="st">&#39;No&#39;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Yes&quot;</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a>card.number &lt;-<span class="st"> &#39;Q&#39;</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a>card.suit &lt;-<span class="st"> &#39;S&#39;</span></span>
+<span id="cb31-3"><a href="#cb31-3"></a><span class="kw">ifelse</span>(card.number <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;J&#39;</span>,<span class="st">&#39;Q&#39;</span>,<span class="st">&#39;K&#39;</span>) <span class="op">&amp;</span><span class="st"> </span></span>
+<span id="cb31-4"><a href="#cb31-4"></a><span class="st">         </span>card.suit <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;H&#39;</span>,<span class="st">&#39;D&#39;</span>),<span class="st">&#39;Yes&#39;</span>,<span class="st">&#39;No&#39;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;No&quot;</code></pre>
+</section></section>
+<section><section id="writing-r-functions" class="title-slide slide level1"><h1>Writing R Functions</h1></section><section id="organization-functions" class="slide level2">
+<h2>Organization: Functions</h2>
+<p>Functions should contain a comments section immediately below the function definition line. These comments should consist of</p>
 <ol type="1">
-<li class="fragment">Github account</li>
-<li class="fragment">Upgrade R and R Studio</li>
-<li class="fragment">Git installation and initialization</li>
-<li class="fragment">Git GUI??</li>
-<li class="fragment">Git - to - Github with R Studio</li>
-<li class="fragment">Basic Git Commands</li>
+<li>a one-sentence description;</li>
+<li>a list of the functions arguments, denoted by <code>Args:</code>, with a description of each and</li>
+<li>a description of the return value, denoted by <code>Returns:</code>.</li>
 </ol>
-</section>
-<section id="github-account" class="slide level2">
-<h2>Github Account</h2>
-<ul>
-<li class="fragment"><p>At this point you should have registered for a github account.</p></li>
-<li class="fragment"><p>If not, visit <a href="https://www.github.com">github.com</a> to set up your account.</p></li>
-<li class="fragment"><p>If you have an account, go ahead and log in. We will use this soon.</p></li>
-</ul>
-</section>
-<section id="r-and-r-studio-updates" class="slide level2">
-<h2>R and R Studio Updates</h2>
-<ul>
-<li class="fragment"><p>R is currently on version 3.6.2, if your version is much older than this, you will want to update it <a href="https://cloud.r-project.org">here</a>.</p></li>
-<li class="fragment"><p>Updating R can be a bit painful, but keeping current is good practice.</p></li>
-<li class="fragment"><p>R Studio is constantly adding improvements and updates, including a git interface.</p></li>
-<li class="fragment"><p>To stay current, consider using the <a href="https://www.rstudio.com/products/rstudio/download/preview/">Preview version</a> and updating at the start of every semester.</p></li>
-</ul>
-</section>
-<section id="git-installation-and-git-initialization" class="slide level2">
-<h2>Git installation and Git initialization</h2>
-<ul>
-<li class="fragment"><p>If you are lucky, git is already installed on your computer.</p></li>
-<li class="fragment"><p>To check you have git, open the terminal or command line, and type <code>git --version</code>. In newer versions of R Studio there is a command line tab.</p></li>
-<li class="fragment"><p>If <code>git --version</code> does not return an error, then you are in luck. Otherwise, git needs to be be <a href="https://happygitwithr.com/install-git.html">installed</a>.</p></li>
-<li class="fragment">If you have not already done so we need to initialize git with the following commands in the terminal:</li>
-</ul>
-<pre><code>git config --global user.name 'First Last'
-git config --global user.email 'who@montana.edu'</code></pre>
-<p>Note the email should correspond to the one you used to sign up for github.</p>
-</section>
-<section id="git-gui" class="slide level2">
-<h2>Git GUI?</h2>
-<ul>
-<li class="fragment"><p>If you are leery of using the command line, consider downloading a git GUI.</p></li>
-<li class="fragment">Two options are options are:
-<ul>
-<li class="fragment"><a href="https://www.gitkraken.com">gitkraken</a> and</li>
-<li class="fragment"><a href="https://desktop.github.com">github desktop</a></li>
-</ul></li>
-<li class="fragment"><p>Also, know that R Studio has some built in features that simplify the git process too.</p></li>
-</ul>
-</section>
-<section id="git---to---github-with-r-studio-1" class="slide level2">
-<h2>Git - to - Github with R Studio: 1</h2>
-<ul>
-<li class="fragment"><p>Our goal is to work locally, in R Studio, and <em>push</em> updates to Github.</p></li>
-<li class="fragment">First, go to your github page and create a new repo. To do this,
-<ul>
-<li class="fragment">Repository name: git_demo</li>
-<li class="fragment">Description: “practice with git”</li>
-<li class="fragment">Select Public</li>
-<li class="fragment">YES Initialize this repository with a README.</li>
-<li class="fragment">Click: create repository.</li>
-</ul></li>
-<li class="fragment"><p>Next, we will clone this repo and create an R Studio project associated with it.</p></li>
-</ul>
-</section>
-<section id="git---to---github-with-r-studio-2-part-1" class="slide level2">
-<h2>Git - to - Github with R Studio: 2 (part 1)</h2>
-<ul>
-<li class="fragment"><p>Now we want to create a local git repo associated with the one hosted on github.</p></li>
-<li class="fragment">First we need to set up version control in R Studio <a href="https://support.rstudio.com/hc/en-us/articles/200532077-Version-Control-with-Git-and-SVN">(more details here)</a>
+<p>The comments should be descriptive enough that the function can be used without reading the function code.</p>
+</section><section id="overview-functions-in-r" class="slide level2">
+<h2>Overview Functions in R</h2>
+<p>Functions are a way to save elements of code to be used repeatedly.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>RollDice &lt;-<span class="st"> </span><span class="cf">function</span>(num.rolls){</span>
+<span id="cb33-2"><a href="#cb33-2"></a>  <span class="co"># </span></span>
+<span id="cb33-3"><a href="#cb33-3"></a>  <span class="co"># ARGS: </span></span>
+<span id="cb33-4"><a href="#cb33-4"></a>  <span class="co"># RETURNS: </span></span>
+<span id="cb33-5"><a href="#cb33-5"></a>  <span class="kw">return</span>(<span class="kw">sample</span>(<span class="dv">6</span>, num.rolls, <span class="dt">replace =</span> T))</span>
+<span id="cb33-6"><a href="#cb33-6"></a>}</span>
+<span id="cb33-7"><a href="#cb33-7"></a><span class="kw">RollDice</span>(<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 6 1</code></pre>
+</section><section id="exercise-function-descriptions" class="slide level2">
+<h2>Exercise: Function Descriptions</h2>
+<p>Document this function with</p>
 <ol type="1">
-<li class="fragment">Tools … Global Options .. Git/SVN</li>
-<li class="fragment">Click enable version controll interface for R Studio projects</li>
-</ol></li>
-</ul>
-</section>
-<section id="git---to---github-with-r-studio-2-part-2" class="slide level2">
-<h2>Git - to - Github with R Studio: 2 (part 2)</h2>
-<ul>
-<li class="fragment">Then we will create this git repo as an R project, by cloning the one on github.
-<ol type="1">
-<li class="fragment">File … New Project … Version Control … Git</li>
-<li class="fragment">Repository URL: This can be obtained from the clone button in github.</li>
-<li class="fragment">Project directory name: this will be the name of the folder containing the repo</li>
-<li class="fragment">Create project as subdirectory of: this is location for the file, you may want to think about a structured file system on your local computer.</li>
-</ol></li>
-</ul>
-</section>
-<section id="git---to---github-with-r-studio-3-part-1" class="slide level2">
-<h2>Git - to - Github with R Studio: 3 (part 1)</h2>
-<p>We now have created a local git repo.</p>
-<ol type="1">
-<li class="fragment"><p>Click on the terminal window and type <code>git status</code>, you will see our current work is up to dat.</p></li>
-<li class="fragment"><p>Now click on README.md in the file pane and add a new line that says, “modified in R Studio” and save this file.</p></li>
+<li class="fragment">a description,</li>
+<li class="fragment">summary of input(s)</li>
+<li class="fragment">summary of outputs</li>
 </ol>
-</section>
-<section id="git---to---github-with-r-studio-3-part-2" class="slide level2">
-<h2>Git - to - Github with R Studio: 3 (part 2)</h2>
-<ol start="3" type="1">
-<li class="fragment">Open the Git tab in the top right and we will see that README.md has been updated.
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>RollDice &lt;-<span class="st"> </span><span class="cf">function</span>(num.rolls){</span>
+<span id="cb35-2"><a href="#cb35-2"></a>  <span class="co"># </span></span>
+<span id="cb35-3"><a href="#cb35-3"></a>  <span class="co"># ARGS:</span></span>
+<span id="cb35-4"><a href="#cb35-4"></a>  <span class="co"># RETURNS: </span></span>
+<span id="cb35-5"><a href="#cb35-5"></a>  <span class="kw">return</span>(<span class="kw">sample</span>(<span class="dv">6</span>, num.rolls, <span class="dt">replace =</span> T))</span>
+<span id="cb35-6"><a href="#cb35-6"></a>}</span></code></pre></div>
+</section><section id="solution-function-descriptions" class="slide level2">
+<h2>Solution: Function Descriptions</h2>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a>RollDice &lt;-<span class="st"> </span><span class="cf">function</span>(num.rolls){</span>
+<span id="cb36-2"><a href="#cb36-2"></a>  <span class="co"># function that returns rolls of dice</span></span>
+<span id="cb36-3"><a href="#cb36-3"></a>  <span class="co"># ARGS: num.rolls - number of rolls</span></span>
+<span id="cb36-4"><a href="#cb36-4"></a>  <span class="co"># RETURNS: vector of num.rolls of a die</span></span>
+<span id="cb36-5"><a href="#cb36-5"></a>  <span class="kw">return</span>(<span class="kw">sample</span>(<span class="dv">6</span>, num.rolls, <span class="dt">replace =</span> T))</span>
+<span id="cb36-6"><a href="#cb36-6"></a>}</span>
+<span id="cb36-7"><a href="#cb36-7"></a><span class="kw">RollDice</span>(<span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## [1] 2 1</code></pre>
+</section><section id="format-of-an-r-function" class="slide level2">
+<h2>Format of an R function</h2>
+<p>Here is an example (trivial) R function.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>SquareRoot &lt;-<span class="st"> </span><span class="cf">function</span>(value.in){</span>
+<span id="cb38-2"><a href="#cb38-2"></a>  <span class="co"># function takes square root of value.</span></span>
+<span id="cb38-3"><a href="#cb38-3"></a>  <span class="co"># Args: value.in - numeric value </span></span>
+<span id="cb38-4"><a href="#cb38-4"></a>  <span class="co"># Returns: the square root of value.in</span></span>
+<span id="cb38-5"><a href="#cb38-5"></a>  <span class="kw">return</span>(value.in <span class="op">^</span><span class="st"> </span><span class="fl">.5</span>)</span>
+<span id="cb38-6"><a href="#cb38-6"></a>}</span></code></pre></div>
+</section><section id="square-root-function" class="slide level2">
+<h2>Square Root Function</h2>
+<p>Now consider running the function for a few values.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="kw">SquareRoot</span>(<span class="dv">9</span>)</span></code></pre></div>
+<pre><code>## [1] 3</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="kw">SquareRoot</span>(<span class="dv">25</span>)</span></code></pre></div>
+<pre><code>## [1] 5</code></pre>
+<p>Now what happens with <code>SquareRoot(-1)</code>?</p>
+</section><section id="square-root-function-1" class="slide level2">
+<h2>Square Root Function</h2>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a><span class="kw">SquareRoot</span>(<span class="op">-</span><span class="dv">1</span>)</span></code></pre></div>
+<pre><code>## [1] NaN</code></pre>
+<p>What should happen?</p>
+</section><section id="errors-in-r-functions" class="slide level2">
+<h2>Errors in R functions</h2>
+<p>Here is an example (trivial) R function.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>SquareRoot &lt;-<span class="st"> </span><span class="cf">function</span>(value.in){</span>
+<span id="cb45-2"><a href="#cb45-2"></a>  <span class="co"># function takes square root of value.</span></span>
+<span id="cb45-3"><a href="#cb45-3"></a>  <span class="co"># Args: value.in - numeric value </span></span>
+<span id="cb45-4"><a href="#cb45-4"></a>  <span class="co"># Returns: the square root of value.in</span></span>
+<span id="cb45-5"><a href="#cb45-5"></a>  <span class="cf">if</span> (value.in <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) <span class="kw">stop</span>(<span class="st">&#39;argument less than zero&#39;</span>)</span>
+<span id="cb45-6"><a href="#cb45-6"></a>  <span class="kw">return</span>(value.in <span class="op">^</span><span class="st"> </span><span class="fl">.5</span>)</span>
+<span id="cb45-7"><a href="#cb45-7"></a>}</span></code></pre></div>
+</section><section id="square-root-function-2" class="slide level2">
+<h2>Square Root Function</h2>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="kw">SquareRoot</span>(<span class="op">-</span><span class="dv">1</span>)</span></code></pre></div>
+<p>This returns:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a><span class="op">&gt;</span><span class="st"> </span><span class="kw">SquareRoot</span>(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb47-2"><a href="#cb47-2"></a>Error <span class="cf">in</span> <span class="kw">SquareRoot</span>(<span class="op">-</span><span class="dv">1</span>) <span class="op">:</span><span class="st"> </span></span>
+<span id="cb47-3"><a href="#cb47-3"></a><span class="st">  </span>argument less than zero</span></code></pre></div>
+</section><section id="exercise-writing-and-documenting-a-function" class="slide level2">
+<h2>Exercise: Writing and Documenting a Function</h2>
+<p>Use the defined style guidelines to create an R script that:</p>
 <ol type="1">
-<li class="fragment">Click on staged (this is essentially the same as typing git add README.md in the terminal)</li>
-<li class="fragment">Click on commit, this will open up a new window. A commit basically amounts to saving a version of all of the current status of all of the files in the repo.</li>
-<li class="fragment">Type a message, such as “changes from R Studio” and click commit</li>
-<li class="fragment">Click on push, and enter github username and password, if necessary. Note: you may want to simplify the push-pull actions by saving github account information <a href="https://happygitwithr.com/push-pull-github.html#am-i-really-going-to-type-github-username-and-password-on-each-push">details</a></li>
-</ol></li>
+<li class="fragment">Takes a state abbreviations as an input</li>
+<li class="fragment">Imports a file available at: <a href="http://math.montana.edu/ahoegh/teaching/stat408/datasets/HousingSales.csv">http://math.montana.edu/ahoegh/teaching/stat408/datasets/HousingSales.csv</a></li>
+<li class="fragment">Creates a subset of housing sales from that state.</li>
+<li class="fragment">Returns a vector with the mean closing price in that state.</li>
 </ol>
-</section>
-<section id="git---to---github-with-r-studio-4" class="slide level2">
-<h2>Git - to - Github with R Studio: 4</h2>
+<p>Verify your functions works by running it twice using “MT” and “NE” as inputs.</p>
+</section><section id="solution-writing-and-documenting-a-function" class="slide level2">
+<h2>Solution: Writing and Documenting a Function</h2>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>SummarizeHousingCosts &lt;-<span class="st"> </span><span class="cf">function</span>(state){</span>
+<span id="cb48-2"><a href="#cb48-2"></a>  <span class="co"># computes average sales price in a state</span></span>
+<span id="cb48-3"><a href="#cb48-3"></a>  <span class="co"># ARGS: state abbr, such as &#39;MT&#39; or &#39;CA&#39;</span></span>
+<span id="cb48-4"><a href="#cb48-4"></a>  <span class="co"># RETURNS: vector with average sales price that each state</span></span>
+<span id="cb48-5"><a href="#cb48-5"></a>  housing.data &lt;-<span class="st"> </span><span class="kw">read.csv</span>(</span>
+<span id="cb48-6"><a href="#cb48-6"></a>    <span class="st">&#39;http://math.montana.edu/ahoegh/teaching/stat408/datasets/HousingSales.csv&#39;</span>)</span>
+<span id="cb48-7"><a href="#cb48-7"></a>  location &lt;-<span class="st"> </span><span class="kw">subset</span>(housing.data, State <span class="op">==</span><span class="st"> </span>state)</span>
+<span id="cb48-8"><a href="#cb48-8"></a>  mean.price &lt;-<span class="st"> </span><span class="kw">mean</span>(location<span class="op">$</span>Closing_Price)</span>
+<span id="cb48-9"><a href="#cb48-9"></a>  <span class="kw">return</span>(mean.price)</span>
+<span id="cb48-10"><a href="#cb48-10"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a><span class="kw">SummarizeHousingCosts</span>(<span class="st">&#39;MT&#39;</span>)</span></code></pre></div>
+<pre><code>## [1] 164608</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a><span class="kw">SummarizeHousingCosts</span>(<span class="st">&#39;NE&#39;</span>)</span></code></pre></div>
+<pre><code>## [1] 152050</code></pre>
+</section><section id="exercise-functions-part-2" class="slide level2">
+<h2>Exercise: Functions Part 2</h2>
+<p>Now write a function that;</p>
+<ol type="1">
+<li class="fragment">Takes daily snowfall total in inches as input</li>
+<li class="fragment">Takes day of week as input</li>
+<li class="fragment">Returns whether to ski or stay home.</li>
+</ol>
+<p>Also include and the <code>stop()</code> function for errors. Test this function with two settings:</p>
 <ul>
-<li class="fragment"><p>Now return to your github page. If you refresh, you should seee a new commit that contains the additional info we added in R studio.</p></li>
-<li class="fragment"><p>Go ahead and modify the README.md in github to add a line stating modified in github.</p></li>
-<li class="fragment"><p>Commit the update along with a message. We will now see that there have been three commits.</p></li>
-<li class="fragment"><p>The final step is to call a <code>pull</code> command from R Studio to bring those updates to your local repo.</p></li>
-<li class="fragment"><p>It is always good practice to <code>pull</code> before a <code>push</code>, especially as you start to collaborate with others.</p></li>
+<li class="fragment">snowfall = 15, day = “Sat”</li>
+<li class="fragment">snowfall = -1, day = “Mon”</li>
 </ul>
-</section>
-<section id="basic-git-commands-part-1" class="slide level2">
-<h2>Basic Git Commands (part 1)</h2>
-<p>We will just cover a few basic commands for now, but the <a href="https://education.github.com/git-cheat-sheet-education.pdf">github cheetsheet</a> is a good reference:</p>
-<ul>
-<li class="fragment"><p><code>add</code>: this adds or stages a file to be committed. It can also be used to track new files. Create an .Rmd file and save it within this directory as sample.Rmd . The file will not immediately show up in the Git window, we need to start tracking it. In the terminal type <code>git add sample.Rmd</code>. Note: sometimes this does not seem to work the first time and you might want to try gitKraken or some other option.</p></li>
-<li class="fragment"><p><code>status</code>: shows the current state of the git repo. Type <code>git status</code></p></li>
-</ul>
-</section>
-<section id="basic-git-commands-part-2" class="slide level2">
-<h2>Basic Git Commands (part 2)</h2>
-<ul>
-<li class="fragment"><p><code>commit</code>: saves the version of all files in the repo. Only updated files that have been staged are saved in this version. In the terminal type <code>git commit -m 'added sample.Rmd file for tracking</code>.</p></li>
-<li class="fragment"><p><code>pull</code>: will retrieve and merge from the remote (github in this case). Type <code>git pull</code>.</p></li>
-<li class="fragment"><p><code>push</code>: sends updates that have been committed to the remote. Type <code>git push</code>. Now inspect your repo on github.</p></li>
-</ul>
-</section>
+</section><section id="solution-functions-part-2" class="slide level2">
+<h2>Solution: Functions Part 2</h2>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>ToSki &lt;-<span class="st"> </span><span class="cf">function</span>(snowfall, day){</span>
+<span id="cb53-2"><a href="#cb53-2"></a>  <span class="co"># determines whether to ski or stay home</span></span>
+<span id="cb53-3"><a href="#cb53-3"></a>  <span class="co"># ARGS: snowfall in inches, day as three letter </span></span>
+<span id="cb53-4"><a href="#cb53-4"></a>  <span class="co">#       abbrwith first letter capitalized</span></span>
+<span id="cb53-5"><a href="#cb53-5"></a>  <span class="co"># RETURNS: string stating whether to ski or not</span></span>
+<span id="cb53-6"><a href="#cb53-6"></a>  <span class="cf">if</span> (snowfall <span class="op">&lt;</span><span class="st"> </span><span class="dv">0</span>) <span class="kw">stop</span>(<span class="st">&#39;snowfall should be greater </span></span>
+<span id="cb53-7"><a href="#cb53-7"></a><span class="st">        than or equal to zero inches&#39;</span>)</span>
+<span id="cb53-8"><a href="#cb53-8"></a>  <span class="cf">if</span> (day <span class="op">==</span><span class="st"> &#39;Sat&#39;</span>) {</span>
+<span id="cb53-9"><a href="#cb53-9"></a>    <span class="kw">return</span>(<span class="st">&#39;Go Ski&#39;</span>)</span>
+<span id="cb53-10"><a href="#cb53-10"></a>  } <span class="cf">else</span> <span class="cf">if</span> (snowfall <span class="op">&gt;</span><span class="st"> </span><span class="dv">5</span>) {</span>
+<span id="cb53-11"><a href="#cb53-11"></a>    <span class="kw">return</span>(<span class="st">&#39;Go Ski&#39;</span>)</span>
+<span id="cb53-12"><a href="#cb53-12"></a>  } <span class="cf">else</span> <span class="kw">return</span>(<span class="st">&#39;Stay Home&#39;</span>)</span>
+<span id="cb53-13"><a href="#cb53-13"></a>}</span></code></pre></div>
+</section><section id="solution-functions-part-2-cont.." class="slide level2">
+<h2>Solution: Functions Part 2 cont..</h2>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1"></a><span class="kw">ToSki</span>(<span class="dt">snowfall =</span> <span class="dv">15</span>, <span class="dt">day =</span> <span class="st">&quot;Sat&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Go Ski&quot;</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1"></a><span class="kw">ToSki</span>(<span class="op">-</span><span class="dv">1</span>, <span class="st">&#39;Mon&#39;</span>)</span></code></pre></div>
+<pre><code>## Error in ToSki(-1, &quot;Mon&quot;): snowfall should be greater 
+##         than or equal to zero inches</code></pre>
+</section></section>
     </div>
   </div>
 
